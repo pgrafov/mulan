@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{%block entry%}
+{%include "orderbox.html"%}
+<div id="your_order_empty_what_to_do">
+<h1>      {{records.2.header}}</h1>
+<p> {{records.2.text|safe}} </p>
+</div>
+{%endblock%}

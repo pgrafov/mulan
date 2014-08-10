@@ -1,0 +1,455 @@
+
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+height: 100%;
+}
+
+body {
+        height: 100%;
+	margin: 0px;
+	background: #F4E9C9;;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 15px;
+	color: #666666;
+}
+
+.price {
+        font-family: "Times New Roman", Times, serif;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+        margin-top: 1.5em;
+	font-size: 1.4em;
+}
+
+img {
+	border:none;
+}
+
+p, ul, ol {
+	margin-top: 0.5em;
+}
+
+ul, ol {
+	margin-left: 3em;
+}
+
+blockquote {
+	margin-left: 3em;
+	margin-right: 3em;
+}
+
+a {
+	color: #11B077;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #11B077;
+}
+
+/*Pre-Header*/
+#lock {
+        
+        
+        width: 66px;
+	height: 100%;
+        background: url(/static/chinese-c.png) no-repeat left top;
+}
+
+
+#preheader {
+	height: 9px;
+	width: 100%;
+        background: url(/static/chinese-rl.png) repeat-x left top;
+	
+	
+}
+
+
+/* Header */
+
+#header {
+	height: 145px;
+	width: 100%;
+	background: url(/static/bg.jpg) repeat-x left top;
+	
+}
+
+
+
+#header-1 {
+    text-align: right;
+    float:left;
+    width:33%;
+    height: 128px;
+   
+}
+#header-2 {
+    float:right;
+    width:67%;
+    height: 128px;
+}
+
+#header-2-1 {
+    float:left;
+    width:50%;
+    height: 128px;
+    
+}
+#header-2-2 {
+    float:right;
+    width: 50%;
+    height: 128px;
+    
+}
+
+#header-text-left {
+    float:right;
+    width: 50%;
+    font-size: 14px;
+    color: #000000;
+    
+}
+#header-text-right {
+    float:left;
+    width: 50%;
+    font-size: 14px;
+    color: #000000;
+    
+}
+
+#lamp-left {
+        float:left;
+        width: 120px;
+        height: 100%;
+        background: url(/static/lampleft.png) no-repeat left top;
+}
+#lamp-right {
+        float:right;
+        width: 120px;
+        height: 100%;
+        background: url(/static/lampright.png) no-repeat left top;
+}
+
+#logo {
+       
+        margin:0 auto;
+        width: 272px;
+	height: 100%;
+        background: url(/static/logo.png) no-repeat left top;
+}
+
+.menu_table {
+    background-color: transparent;
+    border-color: transparent;
+    border-style: none;
+    border-width: 0;
+}
+.menu_tr {
+    background-color: #F7F2E2;
+    color: #765A2C;
+    padding-top: 3px;
+    border-top: thin double maroon;
+    
+}
+.menu_tr td {
+  padding-left: 5px;
+}
+
+#red_basket_small 
+{
+margin-top: 6px;
+float: right;
+width:30px;
+height: 25px;
+background: url(/static/red-basket-small.png) no-repeat left top;
+text-align: right;
+font-size: 0.7em;
+font-weight:bold;
+color: blue;
+}
+
+#logo h1, #logo h2 {
+	float: left;
+	margin: 0 0 0 20px;
+}
+
+#logo h1 {
+	padding: 10px 0 0 0;
+	letter-spacing: -2px;
+	font-size: 2.4em;
+}
+
+#logo h2 {
+	padding: 22px 0 0 5px;
+	letter-spacing: -1px;
+	font-size: 1.4em;
+	font-weight: normal;
+	font-style: italic;
+}
+
+#logo a {
+	text-decoration: none;
+	color: #40C1D4;
+}
+
+#menu {
+	float: left;
+	clear: left;
+	
+	width: 100%;
+	background: #FFFFFF;
+}
+
+
+.menucat_code {
+width:7%;
+float:left;
+color:black;
+margin-top: 3px;
+}
+
+.menucat_name {
+margin-top: 3px;
+height: 45px;
+margin-left:7%;
+}
+
+.menucat_name a
+{
+color:red;
+}
+
+.menucat_name a:hover, .menucat_name a.active
+{
+color:#7b7b7b;
+}
+
+
+/* Page */
+
+#page {
+	padding: 60px 0;
+}
+
+/* Content */
+
+#content {
+        margin-right:10px;
+	float: right;
+	width: 60%;
+	
+}
+
+#right_photo {
+        background: url(/static/kafe1.jpg) no-repeat left top;
+        height:300px;
+        float: right;
+	width: 49%;
+}
+
+#left_photo {
+
+        background: url(/static/kafe2.jpg) no-repeat left top;
+        height:300px;
+        float: left;
+	width: 49%;
+}
+
+.post {
+}
+
+.post .meta {
+	margin: 0;
+	text-align: center;
+	font: bold 11px/normal Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	color: #CCCCCC;
+}
+
+.post .meta a {
+	color: #CCCCCC;
+}
+
+.post .title {
+	margin: 0;
+	padding: 15px 0;
+	text-align: center;
+	font-size: 2.4em;
+	border-top: 1px solid #EEEEEE;
+	border-bottom: 1px solid #EEEEEE;
+}
+
+.post .title a {
+	text-decoration: none;
+}
+
+.post .title a:hover {
+	border-bottom: 1px solid #EEEEEE;
+}
+
+.post .entry {
+	/*padding: 20px;*/
+	line-height: 200%;
+}
+
+.post .links {
+	margin: 0;
+	padding: 10px 0;
+	font-weight: bold;
+	border-bottom: 1px solid #EEEEEE;
+	text-align: center;
+}
+
+.post .tags {
+	margin: 0;
+	padding: 10px 0;
+	font-size: .8em;
+	text-align: center;
+}
+
+.post .tags a {
+	padding-left: 10px;
+}
+
+/* Sidebar */
+
+#sidebar {
+        overflow:hidden;
+        margin-left:10px;
+	
+}
+
+#sidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.siderecord{
+        width: 260px;
+        height: 300px;
+        background: url(/static/roll.png) no-repeat left top;
+	padding: 60px 50px 20px 55px;
+	
+}
+
+#sidebar li ul {
+	padding: 2px 10px;
+}
+
+
+#sidebar h2 {
+	height: 35px;
+	margin: 0;
+	padding: 15px 0 0 20px;
+	color: #FFFFFF;
+}
+
+#sidebar a {
+	text-decoration: none;
+}
+
+#sidebar a:hover {
+	text-decoration: none;
+}
+
+
+
+/* Footer */
+#wrapper {
+min-height: 100%;
+height: auto !important;
+height: 100%;
+margin: 0 auto -4em;
+}
+
+
+#push {
+height: 4em;
+}
+
+#footer {
+	clear: both;
+	height: 4em;
+	color: #A0A0A0;
+}
+
+#footer p {h
+	margin: 0;
+	padding: 0 20px;
+	line-height: normal;
+}
+
+#footer .legal {
+	float: left;
+	height: 32px;
+	padding-top: 18px;
+	
+}
+
+#footer .credits {
+	float: right;
+	height: 32px;
+	padding-top: 18px;
+	
+}
+
+#footer a {
+	color: #FFFFFF;
+}
+
+#basket { 
+	width :100%;
+	margin-bottom: 12px;
+	background-color: #F7F2E2;
+	padding-right: 10px;
+	box-sizing: border-box;
+}
+
+#menu_links {
+	width :100%;
+	background-color: #F7F2E2;
+}
+
+.menu_li_wrapper
+{ width:100%; overflow:hidden;}
+
+.button:hover 
+{
+background: #535353;
+color: #fff;
+}
+
+.button
+{
+background: #448a00;
+overflow: visible;
+padding: 2px 5px 3px;
+border: none;
+font: 13px Arial,Helvetica,sans-serif;
+color: #fff;
+cursor: pointer;
+margin-top: 0.5em;
+}
+
+
+#your_order_table
+{border:1px solid black;}
+#your_order_table td, #your_order_table th {border:1px solid; padding: 5px;}
+#td-total {font-weight:bold;}
+.highlighted-cell {color: red}

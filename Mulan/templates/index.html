@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Кафе Мулан - китайское кафе</title>
+<meta name="keywords" content="кафе мулан, китайская кухня, васильевский остров, бизнес-ланчи, банкеты, говядина по-пекински, хого, лапша" />
+<meta name="description" content="Уютное китайское кафе на Васильевском острове:  богатый выбор блюд, бизнес-ланчи, банкеты" />
+
+
+<script src="/static/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="/static/nivo-slider/jquery.nivo.slider.js" type="text/javascript"></script>
+<script type="text/javascript" src="/static/js/jsddm.js"></script>
+
+<link rel="shortcut icon" href="/static/mulan.ico" />
+<link href="/static/style.css" rel="stylesheet" type="text/css" media="screen" />
+<link type="text/css" rel="stylesheet" href="/static/mainmenu.css" />
+<link rel="stylesheet" href="/static/nivo-slider/nivo-slider.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="/static/nivo-slider/nivo-slider-extra.css" type="text/css" media="screen" />
+
+{%block extra_head%}
+{%endblock%}
+
+<meta name="google-site-verification" content="PrymAiCmV3Q2rHEUQvXcLk0YtLr0AF-XIFbdSzzu-RU" />
+
+
+<script type="text/javascript">
+	
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-39275026-1']);
+  _gaq.push(['_trackPageview']);
+      
+   (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();                
+</script>
+
+<script type="text/javascript">
+  
+  $(window).load(function() {
+    $('#slider').nivoSlider({
+      effect:'fade',
+                    slices:15,
+                    animSpeed:1300,
+                    pauseTime:5000,
+                    startSlide:0,
+                    beforeChange: function(){  },
+                    directionNav:1,
+                    directionNavHide:1,
+                    controlNav:1,
+                    controlNavThumbs:0,
+                    controlNavThumbsFromRel:false,
+                    controlNavThumbsSearch: '.jpg',
+                    controlNavThumbsReplace: '_thumb.jpg',
+                    keyboardNav:1,
+                    pauseOnHover:1,
+                    manualAdvance:0,
+                    captionOpacity:0.8
+
+    });
+  });
+  
+
+  </script>
+
+</head>
+<body>
+<div id = "wrapper">
+<div id="header">
+	<div id="preheader">
+	<div id="preheader-1">
+        </div>
+	<div id="preheader-2">
+	    <div id="preheader-2-1"> 
+                 
+	    </div>
+            <div id="preheader-2-2"><div id = "lock">
+	        </div>
+            </div>
+        </div>
+</div>
+	<div id="header-1">
+               <div id = "lamp-left">
+               </div>
+		<div id = "header-text-left">
+		{%for r in topleftrecords%}
+			<p>{{r.text|safe}} 
+			</p>
+			
+		 {%endfor%}
+		</div>
+        </div>
+	
+        <div id="header-2">
+	    <div id="header-2-1">
+	        <div id = "logo">
+	        </div>
+	    </div>
+            
+            <div id="header-2-2">
+		<div id = "header-text-right">
+		{%for r in toprightrecords%}
+			<p>{{r.text|safe}} 
+			</p>
+			{%endfor%}
+			
+			
+                </div>
+                <div id = "lamp-right">
+                </div>
+	    </div>
+	</div>
+	{%include "mainmenu.html"%}
+	
+</div>
+<!-- start page -->
+<div id="page">
+	<!-- start content -->
+	<div id="content">
+		<div class="post">
+			
+	       {%block entry%}
+	       	 
+               {%for r in records%}
+               {%ifequal r.order 3%}
+               {%else%}
+               {%if r.header%}
+	       	 	<h1>{{r.header}}</h1>
+	       	   {%endif%}
+               <p>{{r.text|safe}}</p>
+               {%endifequal%}
+               {%endfor%}
+               
+            
+           {%endblock entry%}
+			
+   		</div>
+   		
+   	<h1 class="header">Фотогалерея</h1>
+  
+
+<div class="slider-wrapper" >
+    <div id="slider" class="nivoSlider">
+        <img src="/static/photogallery/1.jpg"   >
+        <img src="/static/photogallery/2.jpg"  >
+
+        <img src="/static/photogallery/3.jpg"  >
+        <img src="/static/photogallery/4.jpg"  >
+        <img src="/static/photogallery/5.jpg"   >
+       
+        <img src="/static/photogallery/6.jpg"   >
+      
+        <img src="/static/photogallery/7.jpg"   >
+        <img src="/static/photogallery/8.jpg"   >
+        <img src="/static/photogallery/9.jpg"   >
+        <img src="/static/photogallery/10.jpg"   >
+    </div>
+</div>	
+   		
+   		
+	</div>
+	
+	
+	<!-- end content -->
+	<!-- start sidebar -->
+	
+	<div id="sidebar">
+       {% block sidebar %}
+       {%if show_order_box%}
+	   {%include "orderbox.html"%}
+	   {%endif%}
+		<ul>
+			{%for siderecord in siderecords%} 
+			<li class="siderecord">
+				<h2>{{siderecord.header}}</h2>
+				<p>
+				{{siderecord.text|safe}}
+				</p>
+			</li>
+           {%endfor%}
+			
+		</ul>
+       {% endblock sidebar %}
+	</div>
+
+	<!-- end sidebar -->
+</div>
+<!-- end page -->
+<div id="push"></div>
+</div>
+<div id="footer">
+	<p class="legal">&copy;2012 All Rights Reserved.</p>
+	<p class="credits">Designed by PVG</p>
+</div>
+</body>
+</html>

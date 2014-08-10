@@ -1,0 +1,156 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+
+{% if app_list %}
+    {% for app in app_list %}
+        <div class="module">
+        <table>
+        <caption>
+            <a href="{{ app.app_url }}" class="section" title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">
+                {% blocktrans with name=app.name %}{{ name }}{% endblocktrans %}
+            </a>
+        </caption>
+        {% for model in app.models %}
+            <tr>
+            {% if model.admin_url %}
+                <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }}</a></th>
+            {% else %}
+                <th scope="row">{{ model.name }}</th>
+            {% endif %}
+
+            {% if model.add_url %}
+                <td><a href="{{ model.add_url }}" class="addlink">{% trans 'Add' %}</a></td>
+            {% else %}
+                <td>&nbsp;</td>
+            {% endif %}
+
+            {% if model.admin_url %}
+                <td><a href="{{ model.admin_url }}" class="changelink">{% trans 'Change' %}</a></td>
+            {% else %}
+                <td>&nbsp;</td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+        </table>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>{% trans "You don't have permission to edit anything." %}</p>
+{% endif %}
+<div id="fileupload" class="module">
+ <table style="width:100%;">
+        <caption>
+        <a href="#" class="section">
+            Заливка картинок и pdf
+        </a> 
+        </caption>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+
+
+            <tr>
+           <td><b><label for="file">Файл:</label></b>
+            <input type="file" name="file" id="file"><br></td>
+            </tr>
+            
+            <tr><td><p><b>Тип файлa:</b><Br>
+   <input type="radio" name="pictype" value="menupic"> Блюдо меню (картинка размера 1024 x 683, прозрачный фон, например A2.png)<Br>
+   <input type="radio" name="pictype" value="gallerypic"> Для фотогалереи (картинка размера 750 x 510, например, 1.jpg )<Br>
+   <input type="radio" name="pictype" value="menupdf"> Меню в pdf - bar.pdf или menu.pdf<Br>
+  </p></td></tr>
+            
+            
+             <tr>
+           <td><input type="submit" name="submit" value="Отправить"></td>
+            </tr>
+            </form>
+            </table>
+</div>
+
+<div id="price_increase" class="module">
+<table style="width:100%;">
+        <caption>
+        <a href="#" class="section">
+            Изменить цену всего меню (кроме бизнес-ланчей)
+        </a> 
+        </caption>
+        <form action="/price_increase" method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+
+
+            <tr>
+           <td><b><label for="price_percent">Увеличение цены, %:</label></b>
+            <input type="text" size= "3" name="price_percent" id="price_percent"><br></td>
+            <td><input type="button" name="check" value="Проверить" onclick="var pi = parseInt(document.getElementById('price_percent').value); if (isNaN (pi)) pi = 5; window.open('/new_prices' + pi + '.txt','_blank');"></td>
+            <td><input type="submit" name="submit" value="Подтвердить" onclick="var pi = parseInt(document.getElementById('price_percent').value); if (isNaN (pi)) pi = 5; document.getElementById('price_percent').value = pi; return confirm('Вы действительно хотите изменить цену на ' + pi + '%?');"></td>
+            </tr>
+</table>
+</div>
+
+
+<div id="sale_stats" class="module">
+<table style="width:100%;">
+        <caption>
+        <a href="#" class="section">
+            Cтатистика продаж
+        </a> 
+        </caption>
+        <form action="/price_increase" method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+
+
+            <tr>
+           <td><a href='/stats/xls'><img src="/static/icon-xls-dl.gif"><img>Скачать статистику (xls файл)</a></td>
+            </tr>
+</table>
+</div>
+
+</div>
+    
+{% endblock %}
+
+{% block sidebar %}
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>{% trans 'Recent Actions' %}</h2>
+        <h3>{% trans 'My Actions' %}</h3>
+            {% load log %}
+            {% get_admin_log 10 as admin_log for_user user %}
+            {% if not admin_log %}
+            <p>{% trans 'None available' %}</p>
+            {% else %}
+            <ul class="actionlist">
+            {% for entry in admin_log %}
+            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                {% if entry.is_deletion or not entry.get_admin_url %}
+                    {{ entry.object_repr }}
+                {% else %}
+                    <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                {% endif %}
+                <br/>
+                {% if entry.content_type %}
+                    <span class="mini quiet">{% filter capfirst %}{% trans entry.content_type.name %}{% endfilter %}</span>
+                {% else %}
+                    <span class="mini quiet">{% trans 'Unknown content' %}</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,361 @@
+{% extends "base.html" %}
+
+{%block extra_head%}
+<style type="text/css">
+.bl_button 
+{
+width: 100%;
+height: 40px;
+display:none;
+}
+#your_bl_table 
+{
+border:1px solid black;
+border-collapse: collapse;
+width:68%;
+}
+#buttons
+{
+width: 68%;
+}
+#your_bl_table td, th
+{border:1px solid; padding: 5px;}
+</style>
+<script src="/static/js/order.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/jquery.cookie.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8">
+var const_menu_lunch_box = {{menu_lunch_box}};
+var const_menu_delivery = {{menu_delivery}};
+var const_bl_lunch_box = {{bl_lunch_box}};
+var const_bl_delivery = {{bl_delivery}};
+var const_bl_min_order = {{bl_min_order}};
+var const_menu_min_order = {{menu_min_order}};
+var const_bl_discount = {{bl_discount}};
+var const_menu_discount = {{menu_discount}};
+
+function finalizeOrder ()
+{
+    if (!$('#invalidOrder').is(":visible"))
+       window.location = "/delivery";
+    return false;
+}
+</script>
+<script type ="text/javascript">
+var bl_cats = [];
+{%for bl_cat in bl_cats%}
+bl_cats.push ('{{bl_cat}}');
+var prices = [{{blprice1}}, {{blprice2}}, {{blprice3}}, {{blprice4}}];
+{%endfor%}
+var saved_to_cookies_order = $.cookie('order') != undefined ? JSON.parse($.cookie('order')) : undefined;
+var saved_to_cookies_cur_bl = $.cookie('cur_bl') != undefined ? JSON.parse($.cookie('cur_bl')) : undefined;
+$(document).ready(function(){
+    
+    if (saved_to_cookies_order == undefined)
+        saved_to_cookies_order = [];
+    else
+        onQuantityChanged();
+    
+    if (saved_to_cookies_cur_bl == undefined || saved_to_cookies_cur_bl == [] || is_totally_undefined (saved_to_cookies_cur_bl) )
+        saved_to_cookies_cur_bl = [];
+    {%if delivery%}
+    else
+        generate_bl_order_table(saved_to_cookies_cur_bl);
+    {%endif%}
+    
+});
+
+
+function  generate_bl_order_table (cur_bl)
+{
+    
+    for (var i = 0; i < bl_cats.length; i++)
+    if (cur_bl[i] != undefined)
+    {
+        var stars = parseInt(jQuery ('#blentry_stars_for_id_' + cur_bl[i][2]).attr('count'));
+        
+        var name = jQuery ('#blentry_name_for_id_' + cur_bl[i][2]).html();
+         
+        jQuery ("#user_choice_for_blcat" + i + " td:eq(0)").html(cur_bl[i][0] + ". " + name );
+        jQuery ("#user_choice_for_blcat" + i + " td:eq(2)").html(mul1("&lowast;", stars));
+        jQuery ("#user_choice_for_blcat" + i).show();
+        
+        jQuery("#bl_total_td").html(bl_price (saved_to_cookies_cur_bl));
+        jQuery("#blcat"+ i + "").hide();
+        jQuery("#blcat"+ i +"_header").hide();   
+    }
+    jQuery ("#before_order").hide();
+    jQuery ("#after_order").show(); 
+    if (bl_is_finished (cur_bl) )
+    {
+        jQuery(".bl_button").show();
+    }
+}
+
+function mul1 (str, num) {
+    return num ? Array(num + 1).join(str) : "";
+}
+
+
+
+function bl_from_cur_bl_to_order ()
+{
+    saved_to_cookies_order.push ({'id': bl_to_id (saved_to_cookies_cur_bl),
+                          'code': bl_to_code (saved_to_cookies_cur_bl), 
+                          'name': bl_text (saved_to_cookies_cur_bl), 
+                          'price': bl_price (saved_to_cookies_cur_bl), 
+                          'quantity': 1}); 
+    $.cookie('order', JSON.stringify(saved_to_cookies_order), { expires: 7, path: '/' });
+    saved_to_cookies_cur_bl = [];
+    jQuery.removeCookie('cur_bl', { path: '/' });
+    
+}	
+
+function prepareNextBL ()
+{
+bl_from_cur_bl_to_order();
+window.location='business+';
+}
+
+/*function prepareExtra ()
+{
+bl_from_cur_bl_to_order();
+window.location='business+';
+}*/
+
+function toDelivery ()
+{
+bl_from_cur_bl_to_order();
+window.location='delivery';
+}
+
+function eord_catord_to_code (eord, catord)
+{
+var arr = [];
+{%for bl_cat in bl_cats%}
+arr.push (0);
+{%endfor%}
+arr[catord] = eord;
+return 'bl' + arr.join("");
+}
+
+function eord_catord_to_text (eord, catord)
+{
+	return bl_cats[catord] + '-' + eord;
+}
+
+function bl_text (cur_bl)
+{
+    var retStr = "";
+    var not_finished = false;
+    for (var i = 0; i < bl_cats.length; i++)
+    {
+     	if (cur_bl[i] != undefined)
+     		retStr += cur_bl[i][0] + ", "; 
+     	else
+     		not_finished = true;
+    }
+    if (not_finished)
+    	retStr += '...';
+    else
+        retStr = retStr.substring (0, retStr.length-2);
+    return retStr;
+    
+}
+
+function is_totally_undefined (cur_bl)
+{
+for (var i = 0; i < bl_cats.length; i++)
+    if (cur_bl[i] != undefined)
+            return false;
+return true;
+}
+
+function bl_is_finished (cur_bl)
+{
+for (var i = 0; i < bl_cats.length; i++)
+    if (cur_bl[i] == undefined)
+     		return false;
+return true;
+}
+
+function bl_price (cur_bl)
+{
+    var price = 0;
+    for (var i = 0; i < bl_cats.length; i++)
+    {
+        if (cur_bl[i] != undefined)
+            if (cur_bl[i][1] > price)
+                price = cur_bl[i][1];
+    }
+    return price;
+}
+
+function bl_to_id (cur_bl)
+{
+var retStr = "bl";
+for (var i = 0; i < bl_cats.length; i++)
+	retStr += "-" + cur_bl[i][2];
+return retStr;
+}
+
+function bl_to_code (cur_bl)
+{
+var retStr = "bl";
+for (var i = 0; i < bl_cats.length; i++)
+	retStr += cur_bl[i][0].split("-")[1];
+return retStr;
+}
+
+/*function addToOrder2 (eid, eord, catord, price, name)
+{
+   var found = false;
+   for (var i = 0; i < saved_to_cookies_order.length; i++)
+   {  
+       if (saved_to_cookies_order[i]['id'] == eid)
+       {
+          saved_to_cookies_order[i]['quantity'] += parseInt($("#quantity_for_" +eid).val());
+          found = true;
+       }
+    } 
+    if (!found)
+        saved_to_cookies_order.push ({'price':price, 'name': name, 'code':eord_catord_to_code (eord, catord), 'id': 'bl_' + eid, 'quantity': 1});
+    $("#red_basket_small").html(calc_quantity(saved_to_cookies_order));
+}*/
+
+function addToOrder(eid, eord, catord, stars, name)
+{
+    var price = prices[stars - 1] ;
+    if (price < prices[1])
+        price = prices[1];
+	jQuery ("#before_order").hide();
+	saved_to_cookies_cur_bl[catord] = [eord_catord_to_text(eord, catord), price, eid];
+	jQuery.cookie('cur_bl', JSON.stringify(saved_to_cookies_cur_bl), { expires: 7, path: '/' });
+	jQuery("#bl_total_td").html(bl_price (saved_to_cookies_cur_bl)); 
+	jQuery ("#user_choice_for_blcat" + catord + " td:eq(0)").html(eord_catord_to_text(eord, catord) + ". " + name);
+	jQuery ("#user_choice_for_blcat" + catord + " td:eq(2)").html(mul1("&lowast;", stars));
+	jQuery ("#user_choice_for_blcat" + catord).show();
+    jQuery("#blcat"+ catord + "").hide();
+    jQuery("#blcat"+ catord +"_header").hide();   
+	jQuery ("#after_order").show();
+	if (bl_is_finished (saved_to_cookies_cur_bl) )
+	{
+	    jQuery(".bl_button").show();
+	}
+}
+
+function removeFromOrder (catord)
+{
+    jQuery(".bl_button").hide();
+    saved_to_cookies_cur_bl[catord]  = undefined;
+    if (is_totally_undefined(saved_to_cookies_cur_bl))
+        saved_to_cookies_cur_bl = [];
+    jQuery.cookie('cur_bl', JSON.stringify(saved_to_cookies_cur_bl), { expires: 7, path: '/' });
+    jQuery("#bl_total_td").html(bl_price (saved_to_cookies_cur_bl)); 
+    jQuery ("#user_choice_for_blcat" + catord).hide();
+    jQuery("#blcat"+ catord + "").show();
+    jQuery("#blcat"+ catord +"_header").show();
+    if  (saved_to_cookies_cur_bl.length == 0)
+    {
+        jQuery ("#before_order").show();
+        jQuery ("#after_order").hide();
+    }
+}
+
+</script>
+{%endblock%}
+
+{%block entry%}
+
+
+<div id="before_order">
+{%for r in records%}
+{%if r.header%}
+ 	<h1>{{r.header}}</h1>
+{%endif%}
+<p>{{r.text|safe}}</p>
+{%endfor%}
+{%if not delivery%}
+<h1><a href="/business+">Заказать бизнес-ланч с 12 до 16</a></h1>
+{%endif%}
+</div>
+
+<div id="after_order" style="display:none;">
+<h1>Ваш заказ:</h1>
+<table id = "your_bl_table">
+<thead>
+<tr><th width="70%">Блюдо</th><th width="10%">Правка</th><th width="10%">Цена, руб.</th></tr>
+</thead>
+<tbody>
+
+{%for i in cat_entry_dicts%}
+<tr style="display:none" id="user_choice_for_blcat{{i.cat.order}}">
+<td></td>
+<td align="center">
+<a href="#" onclick="removeFromOrder({{i.cat.order}});return false;"><img src="/static/del.png"></a>
+</td>
+<td  align="right"></td>
+</tr>
+{%endfor%}
+<tr id = "bl_total_tr"><td colspan="2" align="right"><b>Итого:</b></td><td id="bl_total_td" align="right"></td></tr>
+</tbody>
+</table>
+
+<table id = "buttons">
+<tr><td align="center" width = "50%"><button onclick="prepareNextBL();" id="add_bl" class = "bl_button" width="100%">Подтвердить и заказать ещё бизнес-ланч</button></td>
+
+<td align="center" width = "50%"><button onclick="toDelivery();" id="to_order"   class = "bl_button" width="100%">Подтвердить и перейти к оформлению доставки</button></td><tr>
+</table>
+</div>
+
+{%for i in cat_entry_dicts%}
+<h1 id="blcat{{i.cat.order}}_header">{{i.cat.name}}</h1>
+<table  id="blcat{{i.cat.order}}" width="75%" border="0">
+{%for e in i.entries%}
+<tr>
+<td width = "70%">
+<strong>{{e.order}}.</strong> <span id = "blentry_name_for_id_{{e.id}}">{{e.name}}<span>
+{%if e.contents%}
+({{e.contents}})<br>
+{%endif%}
+</td>
+
+<td width = "10%">	
+<span id = "blentry_stars_for_id_{{e.id}}" count="{{e.stars}}">
+{%ifequal e.stars 1%}
+&lowast;
+{%endifequal%}
+{%ifequal e.stars 2%}
+&lowast;&lowast;
+{%endifequal%}
+{%ifequal e.stars 3%}
+&lowast;&lowast;&lowast;
+{%endifequal%}
+{%ifequal e.stars 4%}
+&lowast;&lowast;&lowast;&lowast;
+{%endifequal%}
+</span>
+</td>
+
+{%if delivery%}
+<td  align="center" width = "10%">	 	
+<a title="Добавить в корзину" href="#" 
+    onclick="addToOrder({{e.id}}, {{e.order}}, {{i.cat.order}}, {{e.stars}}, '{{e.name}}');
+             
+            return false;">
+<img alt="Добавить в корзину" src="/static/red-basket-small.png"/>
+</a>
+</td>
+{%endif%}
+
+<td  width="10%">
+    <div style="display:none;" class="blprice">
+    {%if e.price%}
+    {{e.price}} руб.
+    {%endif%}
+    </div>
+</td>	
+</tr>
+{%endfor%}
+</table>
+{%endfor%}
+{%endblock entry%}

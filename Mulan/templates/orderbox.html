@@ -1,0 +1,68 @@
+<div id="basket" {%if not preorder %}style="display:none;"{%endif%}>
+                <h1>{%if preorder %}КОРЗИНА{%else%}ВАШ ЗАКАЗ{%endif%}</h1>
+                <div id = "your_order_empty" >На данный момент пуста.</div>
+                <table id = "your_order_table" style="width:100%; display:none;">
+                    <thead>
+                    <tr><th>Блюдо</th><th>Кол-во</th><th width="80px">Правка</th><th>Сумма</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr style="display:none;" id = "lunch_boxes"><td>Ланч-боксы (меню)</td><td align="center"></td><td></td><td align="right"></td></tr>
+                    <tr style="display:none;" id = "lunch_boxes_2"><td>Ланч-боксы (бизнес-ланч)</td><td align="center"></td><td></td><td align="right"></td></tr>
+                    <tr style="display:none;" id = "delivery"><td>Доставка (меню)</td><td align="center"></td><td></td><td align="right"></td></tr>
+                    <tr style="display:none;" id = "delivery_2"><td>Доставка (бизнес-ланч)</td><td align="center"></td><td></td><td align="right"></td></tr>
+                    <tr style="display:none;" id = "discount"><td><b>Скидка <span id="discount_value"></span><b></td><td align="center"></td><td></td><td align="right"></td></tr>
+                    </tbody>
+                </table>
+                
+                <div id="order_errors">
+                <p id="invalid_total" style="display:none;">Стоимость заказа меньше <span id="min_order_price">500</span> рублей! 
+                {%if preorder %}
+                Выберите что-нибудь ещё.
+                {%else%}
+                Пожалуйста, <a id = "link_to_order_more">выберите что-нибудь ещё</a>.
+                {%endif%}
+                </p>
+                <p id="invalid_street"  style="display:none">Улица не выбрана из списка!</p>
+                <p id="invalid_house_no"  style="display:none">Номер дома не введён или введён неверно</p>
+                <p id="invalid_appartment_no"  style="display:none">Номер квартиры не введён или введён неверно</p>
+                <p id="invalid_phone" style="display:none">Контактный номер не введён или введён неверно!</p>
+                </div>
+                
+                <!--<div id="finalize_order_button"  margin-top: 0.5em;">
+                    <input type="button" >
+                </div>
+</div>-->
+
+<form method="post" action="">
+{% csrf_token %} 
+
+{% comment %}
+{{ order_form.as_p }}
+{% endcomment %}
+
+{% for field in order_form %}
+<p{% if field.field.required %}
+        class="required"
+    {% endif %}>
+    <label for="{{ field.auto_id }}">{{ field.label }}
+    {% if field.field.required %}
+        <span class="required">*</span>
+    {% endif %}
+    </label>
+    {{field}}
+    
+</p>
+{% endfor %}
+
+<input id="finalize_order" type="submit" class="button"
+{%if preorder %} 
+style = "display:none;" 
+onclick = "return finalizeOrder();" 
+value="Оформить заказ"
+{%else%}
+value="Подтвердить" 
+onclick="return validateForm();"
+{%endif%}
+/>
+</form>
+</div>
