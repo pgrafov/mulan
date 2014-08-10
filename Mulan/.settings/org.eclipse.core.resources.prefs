@@ -1,7 +1,0 @@
-eclipse.preferences.version=1
-encoding//mulan/forms.py=utf-8
-encoding//mulan/management/commands/change_bl.py=utf-8
-encoding//mulan/management/commands/deliver.py=utf-8
-encoding//mulan/management/commands/delivery_report.py=utf-8
-encoding//mulan/models.py=utf-8
-encoding//mulan/views.py=utf-8

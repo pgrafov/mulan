@@ -5,3 +5,6 @@
 /sms24x7.pyc
 /urls.pyc
 /xlsgenerator.pyc
+.settings/
+.project
+.pydevproject
