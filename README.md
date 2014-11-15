@@ -1,3 +1,3 @@
 mulan
 =====
-Web site for Mulan cafe - see it live at www.mulanspb.ru.
+Web site for Mulan cafe - check it live at www.mulanspb.ru.
