@@ -192,7 +192,7 @@ def Upload (request):
                     stream = request_file.file
                     image = Image.open(stream)
                     if correct_name: # ignore image size
-                        location = "static2/pics"
+                        location = "static/pics"
                         name = name.split(".")[0].upper() + "." + name.split(".")[1]
                         image.thumbnail((128, 128), Image.ANTIALIAS)
                         outfile = os.path.join(basepath, location, name.split(".")[0] + ".thumbnail." + name.split(".")[1])
@@ -204,11 +204,11 @@ def Upload (request):
                         image = Image.open(stream)
                         size_x, size_y =  image.size
                         if correct_name and size_y == 510 and (680 <= size_x <= 770 ):
-                            location = "static2/photogallery"
+                            location = "static/photogallery"
 
                 elif pictype == "menupdf":
                     if name == "bar.pdf" or name == "menu.pdf":
-                        location = "static2/"
+                        location = "static/"
             except Exception as inst:
                 pass
             if not location is None:
